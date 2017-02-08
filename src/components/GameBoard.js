@@ -100,8 +100,7 @@ class GameBoard extends Component {
         for (let j = 0; j < this.state.board[0].length; j++) {
             row += this.state.board[i][j] + "  |  ";
         }
-        console.log(row);
-        converted[i] = (<div>{row}</div>)
+        converted[i] = (<div key={i}>{row}</div>)
       }
       return converted;
   }
