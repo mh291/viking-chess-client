@@ -1,56 +1,37 @@
 import React, { Component } from 'react';
+import Square from './Square'
 
 const BoardSpaceEnum = {
-    EMPTY: 0,
+    EMPTY: '', //used to be 0 but looks cleaner 
     WHITE_VIKING: 1,
     WHITE_KING: 2,
-    BLACK_ATTACKER: 3
+    BLACK_ATTACKER: 3,
+    SAFE_ZONE: 4
 };
 
-const BLACK_PIECE_ATTACKER_INITIAL_POSITIONS = [
-    [0, 3],
-    [0, 4],
-    [0, 5],
-    [0, 6],
-    [0, 7],
-    [1, 5],
-    [3, 0],
-    [4, 0],
-    [5, 0],
-    [6, 0],
-    [7, 0],
-    [5, 1],
-    [3, 10],
-    [4, 10],
-    [5, 10],
-    [6, 10],
-    [7, 10],
-    [5, 9],
-    [10, 3],
-    [10, 4],
-    [10, 5],
-    [10, 6],
-    [10, 7],
-    [9, 5]
-];
-
-const WHITE_PIECE_KING_INITIAL_POSITIONS = [
-    [5, 5]
-];
-
-const WHITE_PIECE_VIKING_INITIAL_POSITIONS = [
-    [3, 5],
-    [4, 4],
-    [4, 5],
-    [4, 6],
-    [5, 3],
-    [5, 4],
-    [5, 6],
-    [5, 7],
-    [6, 4],
-    [6, 5],
-    [6, 6],
-    [7, 5]
+const INIT_GAME_SETUP = [
+    [ BoardSpaceEnum.SAFE_ZONE, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.BLACK_ATTACKER, BoardSpaceEnum.BLACK_ATTACKER, 
+      BoardSpaceEnum.BLACK_ATTACKER, BoardSpaceEnum.BLACK_ATTACKER, BoardSpaceEnum.BLACK_ATTACKER, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.SAFE_ZONE],
+    [ BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY,
+      BoardSpaceEnum.BLACK_ATTACKER, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY],
+    [ BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, 
+     BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY],
+    [ BoardSpaceEnum.BLACK_ATTACKER, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, 
+     BoardSpaceEnum.WHITE_VIKING, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.BLACK_ATTACKER],
+    [ BoardSpaceEnum.BLACK_ATTACKER, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.WHITE_VIKING, 
+     BoardSpaceEnum.WHITE_VIKING, BoardSpaceEnum.WHITE_VIKING, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.BLACK_ATTACKER],
+    [ BoardSpaceEnum.BLACK_ATTACKER, BoardSpaceEnum.BLACK_ATTACKER, BoardSpaceEnum.EMPTY, BoardSpaceEnum.WHITE_VIKING, BoardSpaceEnum.WHITE_VIKING, 
+     BoardSpaceEnum.WHITE_KING, BoardSpaceEnum.WHITE_VIKING, BoardSpaceEnum.WHITE_VIKING, BoardSpaceEnum.EMPTY, BoardSpaceEnum.BLACK_ATTACKER, BoardSpaceEnum.BLACK_ATTACKER],
+    [ BoardSpaceEnum.BLACK_ATTACKER, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.WHITE_VIKING, 
+      BoardSpaceEnum.WHITE_VIKING, BoardSpaceEnum.WHITE_VIKING, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.BLACK_ATTACKER],
+    [ BoardSpaceEnum.BLACK_ATTACKER, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, 
+      BoardSpaceEnum.WHITE_VIKING, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.BLACK_ATTACKER],
+    [ BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, 
+      BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY],
+    [ BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, 
+      BoardSpaceEnum.BLACK_ATTACKER, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY],
+    [ BoardSpaceEnum.SAFE_ZONE, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.BLACK_ATTACKER, BoardSpaceEnum.BLACK_ATTACKER, 
+      BoardSpaceEnum.BLACK_ATTACKER, BoardSpaceEnum.BLACK_ATTACKER, BoardSpaceEnum.BLACK_ATTACKER, BoardSpaceEnum.EMPTY, BoardSpaceEnum.EMPTY, BoardSpaceEnum.SAFE_ZONE]
 ];
 
 class GameBoard extends Component {
@@ -64,52 +45,39 @@ class GameBoard extends Component {
   }
 
   createInitialBoard(size) {
-    let array = new Array(size);
-    for (let i = 0; i < size; i++) {
-        array[i] = new Array(size);
-    }
+    let rows = new Array(size);
 
     for (let i = 0; i < size; i++) {
+        let subRow = [];
         for (let j = 0; j < size; j++) {
-            array[i][j] = BoardSpaceEnum.EMPTY;
+            subRow.push(<Square value={INIT_GAME_SETUP[i][j]}/>);
         }
-    }
-
-    for (let i = 0; i < WHITE_PIECE_VIKING_INITIAL_POSITIONS.length; i++) {
-        let pos = WHITE_PIECE_VIKING_INITIAL_POSITIONS[i];
-        array[pos[0]][pos[1]] = BoardSpaceEnum.WHITE_VIKING;
-    }
-
-    for (let i = 0; i < WHITE_PIECE_KING_INITIAL_POSITIONS.length; i++) {
-        let pos = WHITE_PIECE_KING_INITIAL_POSITIONS[i];
-        array[pos[0]][pos[1]] = BoardSpaceEnum.WHITE_KING;
-    }
-
-    for (let i = 0; i < BLACK_PIECE_ATTACKER_INITIAL_POSITIONS.length; i++) {
-        let pos = BLACK_PIECE_ATTACKER_INITIAL_POSITIONS[i];
-        array[pos[0]][pos[1]] = BoardSpaceEnum.BLACK_ATTACKER;
+        let row = <div className="row-div">{subRow}</div>;
+        rows[i] = row;
     }
    
-    return array
+    return rows
   }
 
-  convertBoardToText = () => {
+  // attempt to move piece 
+  movePiece() {
+
+  }
+
+  fillBoardWithSquares = () =>{
       let converted = [];
       for (let i = 0; i < this.state.board.length; i++) {
-        let row = "  |  ";
         for (let j = 0; j < this.state.board[0].length; j++) {
-            row += this.state.board[i][j] + "  |  ";
+            converted[i][j] = <Square key={i} value={this.state.board[i][j]}/>;
         }
-        converted[i] = (<div key={i}>{row}</div>)
       }
       return converted;
   }
 
   render() {
     return (
-      <div> 
-        GameBoard:
-        {this.convertBoardToText()}
+      <div className="Game-div" > 
+        {this.state.board}
       </div>
     );
   }
