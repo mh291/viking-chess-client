@@ -50,9 +50,9 @@ class GameBoard extends Component {
     for (let i = 0; i < size; i++) {
         let subRow = [];
         for (let j = 0; j < size; j++) {
-            subRow.push(<Square value={INIT_GAME_SETUP[i][j]}/>);
+            subRow.push(<Square key={i*j + 13*j} value={INIT_GAME_SETUP[i][j]}/>);
         }
-        let row = <div className="row-div">{subRow}</div>;
+        let row = <div className="row-div" key={i*17}>{subRow}</div>;
         rows[i] = row;
     }
    
@@ -76,7 +76,7 @@ class GameBoard extends Component {
 
   render() {
     return (
-      <div className="Game-div" > 
+      <div className="Game-div"> 
         {this.state.board}
       </div>
     );
