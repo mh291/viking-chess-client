@@ -1,8 +1,9 @@
 import React from 'react';
 
-function Square(props)  {
-    return (
-        <button className="Square-button">
+function Square(props) {
+    let borderStyle = props.isSelected ? "Source-button" : "";
+    return (        
+        <button className={"Square-button " + borderStyle} onClick={() => props.selectPiece(event, props.row, props.col)}>
             {props.value}
         </button>
     );

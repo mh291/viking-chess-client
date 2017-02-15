@@ -4,7 +4,7 @@
 
 .Coordinate-label {
   display: block;
-  padding: 5px
+  padding: 15px
 }
 
 /* taken from facebook's tic tac to react tutorial */
@@ -23,6 +23,14 @@
   width: 34px;
 }
 
+.Square-button:focus {
+  outline: none;
+}
+
+.Source-button {
+  border: 2px solid red;
+}
+
 /* taken from facebook's tic tac to react tutorial */
 .row-div:after {
   clear: both;
@@ -36,7 +44,7 @@
 }
 
 .Game-div {
-  padding: 50px;
+  padding: 25px;
 }
 
 .App-logo {
