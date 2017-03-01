@@ -82,6 +82,7 @@ class Game extends Component {
         isGameOver: false,
         winner: null
     };
+    this.gameGlobal = false;
   }
 
   renderFromBoard() {
@@ -112,6 +113,7 @@ class Game extends Component {
         winner: gameWinner,
         error: "The Game is over. " + gameWinner + " has won. Click Restart Game to play again"
     });
+    this.gameGlobal = false;
   }
 
   selectPiece = (event, row, col) => {
@@ -159,7 +161,7 @@ class Game extends Component {
                     moveType: MoveEnum.SOURCE,
                     error: ""
                 });
-                if (this.state.isGameOver) {
+                if (this.gameGlobal) {
                     this.endGame(PlayerEnum.WHITE);
                     return;
                 }
@@ -227,13 +229,7 @@ class Game extends Component {
             this.setState({error: "Chosen target square is a safe zone and you are not moving a king piece"});
             return false;
         } else {
-            this.resetBoard();
-            this.setState((prevState, props) => {
-                return {
-                    isGameOver: !prevState.isGameOver,
-                    winner: PlayerEnum.WHITE  
-                };
-            });
+            this.gameGlobal = true;
             return true;
         }
     } 
