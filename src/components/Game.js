@@ -178,8 +178,7 @@ class Game extends Component {
     for (let i = 0; i < sameTeamDelta.length; i++) {
         let sameTeamCoordinates = [targetRow + sameTeamDelta[i][0], targetCol + sameTeamDelta[i][1]];
         let oppTeamCoordinates = [targetRow + oppTeamDelta[i][0], targetCol + oppTeamDelta[i][1]];
-        
-        if (sameTeamCoordinates[0] < 11 && sameTeamCoordinates[1] < 11 && oppTeamCoordinates[0] < 11 && oppTeamCoordinates[1] < 11) {
+        if (this.isCoordinateInBounds(sameTeamCoordinates) && this.isCoordinateInBounds(oppTeamCoordinates)) {
             if (sameTeamPieces.includes(this.state.board[sameTeamCoordinates[0]][sameTeamCoordinates[1]].type) && oppTeamPieces.includes(this.state.board[oppTeamCoordinates[0]][oppTeamCoordinates[1]].type)) {
                 let rows = this.state.board;
                 if (rows[oppTeamCoordinates[0]][oppTeamCoordinates[1]].type === BoardSpaceEnum.WHITE_KING) {
@@ -195,6 +194,10 @@ class Game extends Component {
             }
         }
     }
+  }
+
+  isCoordinateInBounds(coord) {
+    return coord[0] < 11 && coord[0] > 0 && coord[1] < 11 && coord[1] >= 0;
   }
 
   isSquareSameColorAsPlayer = (row, col) => {
