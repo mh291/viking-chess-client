@@ -15,7 +15,7 @@ const PieceImageMap = {
 
 function Square(props) {
     let borderStyle = props.isSelected ? "Source-button" : "";
-    let image = props.value === 0 ? "" : <img className={"piece"} src={PieceImageMap[props.value]} />;
+    let image = props.value === 0 ? "" : <img alt={props.value} className={"piece"} src={PieceImageMap[props.value]} />;
 
     return (        
         <button className={"Square-button " + borderStyle} onClick={() => props.selectPiece(event, props.row, props.col)}>
