@@ -1,7 +1,5 @@
-function SquareModel(type, row, col, isSelected = false) {
+function SquareModel(type, isSelected = false) {
     this.type = type;
-    this.row = row;
-    this.col = col;
     this.isSelected = isSelected;
 }
 
