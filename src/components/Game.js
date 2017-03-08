@@ -1,80 +1,15 @@
 import '../App.css';
+import { BoardSpaceEnum, MoveEnum, PlayerEnum } from '../constants/GameEnums'
 import Coordinate from '../model/Coordinate';
+import GameBoard from './GameBoard'
+import { INITIAL_BOARD_COPY } from '../constants/GameSetup'
 import React, { Component } from 'react';
-import Square from './Square';
-import SquareModel from '../model/Square-Model';
-
-export const BoardSpaceEnum = {
-    EMPTY: 0, 
-    WHITE_VIKING: 1,
-    WHITE_KING: 2,
-    BLACK_ATTACKER: 3,
-    SAFE_ZONE: 4
-};
-
-const MoveEnum = {
-    SOURCE: "source",
-    TARGET: "target"
-};
-
-export const PlayerEnum = {
-  WHITE: "white",
-  BLACK: "black"
-};
-
-const INIT_GAME_SETUP = [
-    [ new SquareModel(BoardSpaceEnum.SAFE_ZONE), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), 
-      new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.SAFE_ZONE) ],
-    [ new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY) ],
-    [ new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY) ],
-    [ new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.WHITE_VIKING), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY),
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER) ],
-    [ new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.WHITE_VIKING), new SquareModel(BoardSpaceEnum.WHITE_VIKING), 
-      new SquareModel(BoardSpaceEnum.WHITE_VIKING), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER) ],
-    [ new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.WHITE_VIKING), new SquareModel(BoardSpaceEnum.WHITE_VIKING), new SquareModel(BoardSpaceEnum.WHITE_KING), 
-      new SquareModel(BoardSpaceEnum.WHITE_VIKING), new SquareModel(BoardSpaceEnum.WHITE_VIKING), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER) ],
-    [ new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.WHITE_VIKING), new SquareModel(BoardSpaceEnum.WHITE_VIKING), 
-      new SquareModel(BoardSpaceEnum.WHITE_VIKING), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER) ],
-    [ new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.WHITE_VIKING), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER) ],
-    [ new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY) ],
-    [ new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY) ],
-    [ new SquareModel(BoardSpaceEnum.SAFE_ZONE), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), 
-      new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.EMPTY), 
-      new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.SAFE_ZONE) ]
-];
 
 class Game extends Component {
   constructor(props) {
     super(props);
-    let initialBoardCopy = JSON.parse(JSON.stringify(INIT_GAME_SETUP));
     this.state = {
-        board: initialBoardCopy,
+        board: INITIAL_BOARD_COPY,
         currentPlayer: PlayerEnum.BLACK,
         sourceSquare: null, // Coordinate
         moveType: MoveEnum.SOURCE,
@@ -82,38 +17,16 @@ class Game extends Component {
         isGameOver: false,
         winner: null
     };
-    this.gameGlobal = false;
-  }
-
-  renderFromBoard() {
-    const length = this.state.board.length;
-    let rows = new Array(length);
-
-    for (let i = 0; i < length; i++) {
-        let subRow = [];
-        for (let j = 0; j < length; j++) {
-            subRow.push(<Square 
-                            key={i * j + 13 * j} 
-                            value={this.state.board[i][j].type} 
-                            selectPiece={(event, row, col) => this.selectPiece(event, row, col)} 
-                            row={i} 
-                            col={j} 
-                            isSelected={this.state.board[i][j].isSelected}
-                        />);
-        }
-        let row = <div className="row-div" key={i*17}>{subRow}</div>; 
-        rows[i] = row;
-    }
-    return rows
+    this.isGameOver = false;
   }
 
   endGame = (gameWinner) => {
     this.setState({
         isGameOver: true,
         winner: gameWinner,
-        error: "The Game is over. " + gameWinner + " has won. Click Restart Game to play again"
+        error: "The Game is over. " + gameWinner + " has won. Click Reset Board to play again"
     });
-    this.gameGlobal = false;
+    this.isGameOver = false;
   }
 
   selectPiece = (event, row, col) => {
@@ -161,7 +74,7 @@ class Game extends Component {
                     moveType: MoveEnum.SOURCE,
                     error: ""
                 });
-                if (this.gameGlobal) {
+                if (this.isGameOver) {
                     this.endGame(PlayerEnum.WHITE);
                     return;
                 }
@@ -202,7 +115,7 @@ class Game extends Component {
     return coord[0] < 11 && coord[0] > 0 && coord[1] < 11 && coord[1] >= 0;
   }
 
-  isSquareSameColorAsPlayer = (row, col) => {
+  isValidSourceSelection = (row, col) => {
     let square = this.state.board[row][col];
     if (this.state.currentPlayer === PlayerEnum.WHITE) {
         if (square.type === BoardSpaceEnum.WHITE_KING || square.type === BoardSpaceEnum.WHITE_VIKING) {
@@ -216,9 +129,6 @@ class Game extends Component {
     return false;
   }
 
-  isValidSourceSelection = (row, col) => {
-    return this.isSquareSameColorAsPlayer(row, col);
-  }
 
   isValidTargetSelection = (row, col) => {
     let targetSquare = this.state.board[row][col];
@@ -229,7 +139,7 @@ class Game extends Component {
             this.setState({error: "Chosen target square is a safe zone and you are not moving a king piece"});
             return false;
         } else {
-            this.gameGlobal = true;
+            this.isGameOver = true;
             return true;
         }
     } 
@@ -279,9 +189,8 @@ class Game extends Component {
   }
 
   resetBoard = () => {
-    let initialBoardCopy = JSON.parse(JSON.stringify(INIT_GAME_SETUP));
     this.setState({ 
-        board: initialBoardCopy,
+        board: INITIAL_BOARD_COPY,
         currentPlayer: PlayerEnum.BLACK,
         sourceSquare: null,
         moveType: MoveEnum.SOURCE,
@@ -303,7 +212,7 @@ class Game extends Component {
     return (
       <div className="Game-div"> 
         <label className="Coordinate-label">Viking Chess</label>
-        {this.renderFromBoard()}
+        <GameBoard board={this.state.board} selectPiece={this.selectPiece} />
         {this.state.error}
         <button className="Coordinate-button" onClick={this.resetBoard}>Reset Board</button>
         <label className="Coordinate-label">{gameState}</label>
