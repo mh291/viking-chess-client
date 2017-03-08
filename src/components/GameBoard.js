@@ -15,7 +15,7 @@ function GameBoard(props) {
                             selectPiece={(event, row, col) => props.selectPiece(event, row, col)} 
                             row={i} 
                             col={j} 
-                            isSelected={props.board[i][j].isSelected}
+                            isSelected={props.sourceSquare && props.sourceSquare.row === i && props.sourceSquare.col === j}
                         />);
         }
         let row = <div className="row-div" key={i*17}>{subRow}</div>; 

@@ -1,6 +1,5 @@
-function SquareModel(type, isSelected = false) {
+function SquareModel(type) {
     this.type = type;
-    this.isSelected = isSelected;
 }
 
 export default SquareModel

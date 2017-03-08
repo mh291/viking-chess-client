@@ -35,10 +35,8 @@ class Game extends Component {
         return;
     } else {
         let rows = this.state.board;
-        let oldSquare = rows[row][col];
         if (this.state.moveType === MoveEnum.SOURCE) {
             if (this.isValidSourceSelection(row, col)) {
-                rows[row][col].isSelected = !oldSquare.isSelected;
                 this.setState({
                     board: rows,
                     sourceSquare: new Coordinate(row, col),
@@ -51,7 +49,6 @@ class Game extends Component {
         } else {
             // to deselect source piece 
             if (this.state.sourceSquare.row === row && this.state.sourceSquare.col === col) {
-                rows[row][col].isSelected = !oldSquare.isSelected;
                 this.setState({
                     board: rows,
                     sourceSquare: null,
@@ -67,7 +64,6 @@ class Game extends Component {
                 let targetSquare = rows[row][col];
                 targetSquare.type = sourceSquare.type;
                 rows[this.state.sourceSquare.row][this.state.sourceSquare.col].type = BoardSpaceEnum.EMPTY;
-                rows[this.state.sourceSquare.row][this.state.sourceSquare.col].isSelected = false;
                 this.setState({
                     board: rows,
                     sourceSquare: null,
@@ -212,7 +208,7 @@ class Game extends Component {
     return (
       <div className="Game-div"> 
         <label className="Coordinate-label">Viking Chess</label>
-        <GameBoard board={this.state.board} selectPiece={this.selectPiece} />
+        <GameBoard board={this.state.board} selectPiece={this.selectPiece} sourceSquare={this.state.sourceSquare} />
         {this.state.error}
         <button className="Coordinate-button" onClick={this.resetBoard}>Reset Board</button>
         <label className="Coordinate-label">{gameState}</label>
