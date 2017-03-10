@@ -90,7 +90,6 @@ class Game extends Component {
 
   isValidSourceSelection = (row, col) => {
     let square = this.props.board[row][col];
-    console.log(this.props.currentPlayer)
     if (this.props.currentPlayer === PlayerEnum.WHITE) {
         if (square.type === BoardSpaceEnum.WHITE_KING || square.type === BoardSpaceEnum.WHITE_VIKING) {
             return new MovementResult(true);
@@ -135,7 +134,6 @@ class Game extends Component {
         end = sourceRow < targetRow ? targetRow: sourceRow;
         isRowMove = false;
     } else {
-        //neither row nor col are the same
         this.props.setError("You must choose a target in the same row or column");
         return new MovementResult(false);
     }
