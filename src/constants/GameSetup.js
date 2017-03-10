@@ -1,7 +1,7 @@
 import { BoardSpaceEnum } from './GameEnums';
 import SquareModel from '../model/Square-Model';
 
-const INIT_GAME_SETUP = [
+export const INIT_GAME_SETUP = [
     [ new SquareModel(BoardSpaceEnum.SAFE_ZONE), new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.EMPTY), 
       new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), 
       new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.EMPTY), 
@@ -47,6 +47,3 @@ const INIT_GAME_SETUP = [
       new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.BLACK_ATTACKER), new SquareModel(BoardSpaceEnum.EMPTY), 
       new SquareModel(BoardSpaceEnum.EMPTY), new SquareModel(BoardSpaceEnum.SAFE_ZONE) ]
 ];
-
-
-export const INITIAL_BOARD_COPY = JSON.parse(JSON.stringify(INIT_GAME_SETUP));

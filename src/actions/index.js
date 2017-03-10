@@ -11,33 +11,32 @@ export const deselectPiece = () => {
     }
 }
 
-export const movePiece = (source, target, board) => {
+export const movePiece = (source, target) => {
     return {
         type: 'MOVE_PIECE',
         source,
-        target,
-        board
+        target
     };
 }
 
-export const capturePiece = (board) => {
+export const capturePiece = (capturedPiece) => {
     return {
         type: 'CAPTURE_PIECE',
-        board
+        capturedPiece
     }
 }
 
-export const restartGame = (newBoard) => {
+export const restartGame = () => {
     return {
-        type: 'RESTART_GAME',
-        newBoard
+        type: 'RESTART_GAME'
     };
 }
 
-export const endGame = (winner) => {
+export const endGame = (winner, message) => {
     return {
         type: 'END_GAME',
-        winner
+        winner,
+        message
     };
 }
 

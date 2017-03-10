@@ -1,8 +1,8 @@
 import { BoardSpaceEnum, MoveEnum, PlayerEnum } from '../constants/GameEnums'
-import { INITIAL_BOARD_COPY } from '../constants/GameSetup'
+import { INIT_GAME_SETUP } from '../constants/GameSetup'
 
 const initialState = {
-        board: INITIAL_BOARD_COPY,
+        board: JSON.parse(JSON.stringify(INIT_GAME_SETUP)),
         currentPlayer: PlayerEnum.BLACK,
         sourceSquare: null,         
         moveType: MoveEnum.SOURCE,
@@ -11,13 +11,12 @@ const initialState = {
         winner: null
     };
 
-
 const game = (state = initialState, action) => {
-    let updatedMoveType = state.moveType === MoveEnum.SOURCE ? MoveEnum.Target: MoveEnum.SOURCE;
+    let updatedMoveType = state.moveType === MoveEnum.SOURCE ? MoveEnum.TARGET: MoveEnum.SOURCE;
     switch(action.type) {
-        case 'SELECT_PIECE':            
+        case 'SELECT_PIECE':     
             return Object.assign({}, state, {
-                sourceSquare: action.source,
+                sourceSquare: action.selectedSquare,
                 moveType: updatedMoveType,
                 error: ""
             });
@@ -28,7 +27,7 @@ const game = (state = initialState, action) => {
                 error: ""
             });
         case 'MOVE_PIECE':
-            let updatedBoard = JSON.parse(JSON.stringify(action.board));
+            let updatedBoard = JSON.parse(JSON.stringify(state.board));
             let source = updatedBoard[action.source.row][action.source.col];
             let target = updatedBoard[action.target.row][action.target.col];
             
@@ -42,25 +41,26 @@ const game = (state = initialState, action) => {
                 error: ""
             });
         case 'CAPTURE_PIECE':
+            updatedBoard = JSON.parse(JSON.stringify(state.board));
+            updatedBoard[action.capturedPiece.row][action.capturedPiece.col].type = BoardSpaceEnum.EMPTY;
             return Object.assign({}, state, {
-                board: action.board,
+                board: updatedBoard,
                 error: "You've captured a piece!"
-            });
-        case 'RESTART_GAME':
-            return Object.assign({}, state, {
-                board: action.newBoard
             });
         case 'END_GAME':
             return Object.assign({}, state, {
                 winner: action.winner,
-                isGameOver: !state.isGameOver
+                isGameOver: !state.isGameOver,
+                error: action.message
             });
         case 'CHANGE_PLAYER':
             return Object.assign({}, state, {
                 currentPlayer: state.currentPlayer === PlayerEnum.WHITE ? PlayerEnum.BLACK : PlayerEnum.WHITE
             });
-        case 'RESET_BOARD':
-            return initialState;
+        case 'RESTART_GAME':
+            return Object.assign({}, initialState, {
+                board: JSON.parse(JSON.stringify(INIT_GAME_SETUP))
+            })
         case 'SET_ERROR':
             return Object.assign({}, state, {
                error: action.message 
