@@ -2,6 +2,7 @@ import '../App.css';
 import { BoardSpaceEnum, MoveEnum, PlayerEnum } from '../constants/GameEnums'
 import Coordinate from '../model/Coordinate';
 import GameBoard from './GameBoard'
+import { INSTRUCTIONS } from '../constants/GameSetup'
 import React, { Component } from 'react';
 import MovementResult from '../model/Movement-Result'
 
@@ -175,6 +176,7 @@ class Game extends Component {
         <GameBoard board={this.props.board} selectPiece={this.selectPiece} sourceSquare={this.props.sourceSquare} />
         {this.props.error}
         <button className="Coordinate-button" onClick={this.resetBoard}>Reset Board</button>
+        <label className="Instructions-label">{INSTRUCTIONS}</label>
         <label className="Coordinate-label">{gameState}</label>
       </div>
     );

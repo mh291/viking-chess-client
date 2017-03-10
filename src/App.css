@@ -10,6 +10,16 @@
   padding: 5px;
 }
 
+.Instructions-label {
+  top: -400px;
+  left: 400px;
+  position: relative;
+}
+
+.Gameboard {
+  padding: 10px;
+}
+
 /* taken from facebook's tic tac to react tutorial */
 .Square-button {
   background: #fff;

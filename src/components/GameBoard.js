@@ -22,7 +22,7 @@ function GameBoard(props) {
         rows[i] = row;
     }
   
-    return <div>{rows}</div>
+    return <div className="Gameboard">{rows}</div>
 }
   
 export default GameBoard
