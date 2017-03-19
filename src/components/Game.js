@@ -180,7 +180,7 @@ class Game extends Component {
   fetchUpdatedBoard = () => {
     setTimeout(() => {
         this.props.fetchUpdatedBoard();
-        this.fetchUpdatedBoard();
+        // this.fetchUpdatedBoard(); // disable constant fetch requests on prod
     }, 1000);
   }
 
