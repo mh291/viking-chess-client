@@ -7,6 +7,17 @@ import React, { Component } from 'react';
 import MovementResult from '../model/Movement-Result'
 
 class Game extends Component {
+
+  componentWillMount() {
+    // begin polling for new board
+    this.fetchUpdatedBoard();
+  }
+
+  componentDidMount = () => {
+    // send current board
+    this.props.sendUpdatedBoard(this.props.board);
+  }
+
   endGame = (gameWinner) => {
     let message = "The Game is over. " + gameWinner + " has won. Click Reset Board to play again";
     this.props.endGame(gameWinner, message);
@@ -164,6 +175,13 @@ class Game extends Component {
 
   changePlayer = () => {
     this.props.changePlayer();
+  }
+  
+  fetchUpdatedBoard = () => {
+    setTimeout(() => {
+        this.props.fetchUpdatedBoard();
+        this.fetchUpdatedBoard();
+    }, 1000);
   }
 
   render() {
