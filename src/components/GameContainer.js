@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Game from './Game';
-import { selectPiece, deselectPiece, movePiece, capturePiece, restartGame, endGame, changePlayer, setError, sendUpdatedBoard, fetchUpdatedBoard } from '../actions/index';
+import { selectPiece, deselectPiece, restartGame, endGame, changePlayer, setError, sendUpdatedBoardOnMove, fetchUpdatedBoard } from '../actions/index';
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -22,12 +22,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         deselectPiece: function() {
             dispatch(deselectPiece());
         },
-        movePiece: function(source, target) {
-            dispatch(movePiece(source, target));
-        },
-        capturePiece: function(board) { //maybe change to take in the piece you want to capture?
-            dispatch(capturePiece(board));
-        },
         restartGame: function() {
             dispatch(restartGame()); 
         },
@@ -40,8 +34,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         setError: function(message) {
             dispatch(setError(message));
         },
-        sendUpdatedBoard: function(updatedBoard) {
-            dispatch(sendUpdatedBoard(updatedBoard));
+        sendUpdatedBoardOnMove: function(updatedBoard, isCapture) {
+            dispatch(sendUpdatedBoardOnMove(updatedBoard, isCapture));
         },
         fetchUpdatedBoard: function() {
             dispatch(fetchUpdatedBoard());

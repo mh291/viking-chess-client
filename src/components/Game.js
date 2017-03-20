@@ -9,13 +9,11 @@ import MovementResult from '../model/Movement-Result'
 class Game extends Component {
 
   componentWillMount() {
+    // send back initial board for correct formatting on fetch call
+    // this.props.sendUpdatedBoardOnMove(this.props.board);
+
     // begin polling for new board
     this.fetchUpdatedBoard();
-  }
-
-  componentDidMount = () => {
-    // send current board
-    this.props.sendUpdatedBoard(this.props.board);
   }
 
   endGame = (gameWinner) => {
@@ -43,16 +41,13 @@ class Game extends Component {
             } 
             let targetMovementResult = this.isValidTargetSelection(row, col);
             if (targetMovementResult.isValid) {
-                this.props.movePiece(this.props.sourceSquare, new Coordinate(row, col));
+                let captureMovementResult = this.canCapturePiece(row, col);
+                                
+                this.movePiece(row, col, captureMovementResult.isValid, captureMovementResult.capturedPiece);  
+
                 // check if white is about to win i.e. moved king into safe
                 if (targetMovementResult.winner) {
                     this.endGame(targetMovementResult.winner);
-                }
-
-                let captureMovementResult = this.canCapturePiece(row, col);
-                // check if a valid capture
-                if (captureMovementResult.isValid) {
-                    this.props.capturePiece(captureMovementResult.capturedPiece)
                 } 
 
                 // check if black won i.e. captured white king 
@@ -169,6 +164,20 @@ class Game extends Component {
     return new MovementResult(true);
   }
 
+  movePiece = (row, col, isCapture, capturedPiece) => {
+    let updatedBoard = JSON.parse(JSON.stringify(this.props.board));
+    let source = updatedBoard[this.props.sourceSquare.row][this.props.sourceSquare.col];
+    let target = updatedBoard[row][col];
+    
+    target.type = source.type;
+    updatedBoard[this.props.sourceSquare.row][this.props.sourceSquare.col].type = BoardSpaceEnum.EMPTY;
+
+    if (isCapture) {
+        updatedBoard[capturedPiece.row][capturedPiece.col].type = BoardSpaceEnum.EMPTY;
+    }
+    this.props.sendUpdatedBoardOnMove(updatedBoard, isCapture);
+  }
+
   resetBoard = () => {
     this.props.restartGame();
   }
@@ -180,8 +189,8 @@ class Game extends Component {
   fetchUpdatedBoard = () => {
     setTimeout(() => {
         this.props.fetchUpdatedBoard();
-        // this.fetchUpdatedBoard(); // disable constant fetch requests on prod
-    }, 1000);
+        this.fetchUpdatedBoard(); // disable constant fetch requests on prod
+    }, 5000);
   }
 
   render() {

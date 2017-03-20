@@ -25,18 +25,12 @@ export const deselectPiece = () => {
     };
 }
 
-export const movePiece = (source, target) => {
+// export const movePiece = (source, target) => {
+const movePiece = (updatedBoard, isCapture) => {
     return {
         type: MOVE_PIECE,
-        source,
-        target
-    };
-}
-
-export const capturePiece = (capturedPiece) => {
-    return {
-        type: CAPTURE_PIECE,
-        capturedPiece
+        updatedBoard,
+        isCapture
     };
 }
 
@@ -67,8 +61,9 @@ export const setError = (message) => {
     };
 }
 
-export const sendUpdatedBoard = (updatedBoard) => {
+export const sendUpdatedBoardOnMove = (updatedBoard, isCapture) => {
     return dispatch => {
+        dispatch(movePiece(updatedBoard, isCapture));
         return fetch(url, {
             method: 'POST',
             headers: {
@@ -77,7 +72,7 @@ export const sendUpdatedBoard = (updatedBoard) => {
             },
             mode: 'no-cors',
             body: JSON.stringify(updatedBoard)
-        })
+        });
     };
 }
 

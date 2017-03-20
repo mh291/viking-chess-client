@@ -1,6 +1,6 @@
-import { BoardSpaceEnum, MoveEnum, PlayerEnum } from '../constants/GameEnums'
+import { MoveEnum, PlayerEnum } from '../constants/GameEnums'
 import { INIT_GAME_SETUP } from '../constants/GameSetup'
-import { SELECT_PIECE, DESELECT_PIECE, MOVE_PIECE, CAPTURE_PIECE, RESTART_GAME, 
+import { SELECT_PIECE, DESELECT_PIECE, MOVE_PIECE, RESTART_GAME, 
          END_GAME, CHANGE_PLAYER, SET_ERROR, RECEIVE_UPDATED_BOARD} from '../actions/index'
 
 const initialState = {
@@ -28,26 +28,12 @@ const game = (state = initialState, action) => {
                 moveType: updatedMoveType,
                 error: ""
             });
-        case MOVE_PIECE:
-            let updatedBoard = JSON.parse(JSON.stringify(state.board));
-            let source = updatedBoard[action.source.row][action.source.col];
-            let target = updatedBoard[action.target.row][action.target.col];
-            
-            target.type = source.type;
-            updatedBoard[action.source.row][action.source.col].type = BoardSpaceEnum.EMPTY;
-
+        case MOVE_PIECE:            
             return Object.assign({}, state, {
-                board: updatedBoard,
+                board: action.updatedBoard,
                 sourceSquare: null,
                 moveType: updatedMoveType,
-                error: ""
-            });
-        case CAPTURE_PIECE:
-            updatedBoard = JSON.parse(JSON.stringify(state.board));
-            updatedBoard[action.capturedPiece.row][action.capturedPiece.col].type = BoardSpaceEnum.EMPTY;
-            return Object.assign({}, state, {
-                board: updatedBoard,
-                error: "You've captured a piece!"
+                error: action.isCapture ? "You've captured a piece!" : ""
             });
         case END_GAME:
             return Object.assign({}, state, {
@@ -68,8 +54,8 @@ const game = (state = initialState, action) => {
                error: action.message 
             });
         case RECEIVE_UPDATED_BOARD:
-            return Object.assign({}, initialState, {
-                board: action.updatedBoardJSON
+            return Object.assign({}, state, {
+                board: JSON.parse(action.updatedBoardJSON)
             })
         default:
             return state;
