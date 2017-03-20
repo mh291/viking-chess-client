@@ -25,7 +25,6 @@ export const deselectPiece = () => {
     };
 }
 
-// export const movePiece = (source, target) => {
 const movePiece = (updatedBoard, isCapture) => {
     return {
         type: MOVE_PIECE,
