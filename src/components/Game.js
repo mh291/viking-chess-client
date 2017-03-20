@@ -179,7 +179,7 @@ class Game extends Component {
   }
 
   resetBoard = () => {
-    this.props.restartGame();
+    this.props.sendResetBoard();
   }
 
   changePlayer = () => {

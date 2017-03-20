@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import { INIT_GAME_SETUP } from '../constants/GameSetup'
 
 export const SELECT_PIECE = 'SELECT_PIECE';
 export const DESELECT_PIECE = 'DESELECT_PIECE';
@@ -9,7 +10,8 @@ export const END_GAME = 'END_GAME';
 export const CHANGE_PLAYER = 'CHANGE_PLAYER';
 export const SET_ERROR = 'SET_ERROR';
 export const RECEIVE_UPDATED_BOARD = 'RECEIVE_UPDATED_BOARD';
-const url = `http://localhost:5000/api/updateBoard`;
+const updateBoardUrl = `http://localhost:5000/api/updateBoard`;
+const resetBoardUrl = `http://localhost:5000/api/resetBoard`;
 
 
 export const selectPiece = (selectedSquare) => {
@@ -60,10 +62,17 @@ export const setError = (message) => {
     };
 }
 
+const receiveUpdatedBoard = (updatedBoardJSON) => {
+    return {
+        type: RECEIVE_UPDATED_BOARD,
+        updatedBoardJSON
+    };
+}
+
 export const sendUpdatedBoardOnMove = (updatedBoard, isCapture) => {
     return dispatch => {
         dispatch(movePiece(updatedBoard, isCapture));
-        return fetch(url, {
+        return fetch(updateBoardUrl, {
             method: 'POST',
             headers: {
                 'accept': 'application/json',
@@ -75,16 +84,24 @@ export const sendUpdatedBoardOnMove = (updatedBoard, isCapture) => {
     };
 }
 
-const receiveUpdatedBoard = (updatedBoardJSON) => {
-    return {
-        type: RECEIVE_UPDATED_BOARD,
-        updatedBoardJSON
+export const sendResetBoard = (updatedBoard, isCapture) => {
+    return dispatch => {
+        dispatch(restartGame());
+        return fetch(resetBoardUrl, {
+            method: 'POST',
+            headers: {
+                'accept': 'application/json',
+                'content-type': 'application/json'
+            },
+            mode: 'no-cors',
+            body: JSON.stringify(INIT_GAME_SETUP)
+        });
     };
 }
 
 export const fetchUpdatedBoard = () => {
     return dispatch => {
-        return fetch(url, {
+        return fetch(updateBoardUrl, {
             method: 'GET',
             headers: {
                 'accept': 'application/json',
