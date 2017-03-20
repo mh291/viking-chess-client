@@ -13,7 +13,7 @@ class Game extends Component {
     // this.props.sendUpdatedBoardOnMove(this.props.board);
 
     // begin polling for new board
-    this.fetchUpdatedBoard();
+    this.fetchUpdates();
   }
 
   endGame = (gameWinner) => {
@@ -59,8 +59,6 @@ class Game extends Component {
                     this.endGame(PlayerEnum.WHITE);
                     return;
                 }
-                
-                this.changePlayer();
             } 
         }
     }
@@ -186,11 +184,12 @@ class Game extends Component {
     this.props.changePlayer();
   }
   
-  fetchUpdatedBoard = () => {
+  fetchUpdates = () => {
     setTimeout(() => {
         this.props.fetchUpdatedBoard();
-        this.fetchUpdatedBoard(); // disable constant fetch requests on prod
-    }, 5000);
+        this.props.fetchCurrentPlayer();
+        this.fetchUpdates(); // disable constant fetch requests on prod
+    }, 1000);
   }
 
   render() {

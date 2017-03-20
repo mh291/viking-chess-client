@@ -12,6 +12,7 @@ export const SET_ERROR = 'SET_ERROR';
 export const RECEIVE_UPDATED_BOARD = 'RECEIVE_UPDATED_BOARD';
 const updateBoardUrl = `http://localhost:5000/api/updateBoard`;
 const resetBoardUrl = `http://localhost:5000/api/resetBoard`;
+const currentPlayerUrl = `http://localhost:5000/api/currentPlayer`;
 
 
 export const selectPiece = (selectedSquare) => {
@@ -49,9 +50,10 @@ export const endGame = (winner, message) => {
     };
 }
 
-export const changePlayer = () => {
+export const changePlayer = (currentPlayer) => {
     return {
-        type: CHANGE_PLAYER
+        type: CHANGE_PLAYER,
+        currentPlayer
     };
 }
 
@@ -111,6 +113,22 @@ export const fetchUpdatedBoard = () => {
             mode: 'cors'
         }).then(response => response.json())
           .then(json => dispatch(receiveUpdatedBoard(json))           
+        );
+    };
+}
+
+export const fetchCurrentPlayer = () => {
+    return dispatch => {
+        return fetch(currentPlayerUrl, {
+            method: 'GET',
+            headers: {
+                'accept': 'application/json',
+                'content-type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            mode: 'cors'
+        }).then(response => response.json())
+          .then(json => dispatch(changePlayer(json))           
         );
     };
 }

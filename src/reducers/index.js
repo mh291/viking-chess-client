@@ -41,14 +41,10 @@ const game = (state = initialState, action) => {
                 isGameOver: !state.isGameOver,
                 error: action.message
             });
-        case CHANGE_PLAYER:
-            return Object.assign({}, state, {
-                currentPlayer: state.currentPlayer === PlayerEnum.WHITE ? PlayerEnum.BLACK : PlayerEnum.WHITE
-            });
         case RESTART_GAME:
             return Object.assign({}, initialState, {
                 board: JSON.parse(JSON.stringify(INIT_GAME_SETUP))
-            })
+            });
         case SET_ERROR:
             return Object.assign({}, state, {
                error: action.message 
@@ -56,7 +52,7 @@ const game = (state = initialState, action) => {
         case RECEIVE_UPDATED_BOARD:
             return Object.assign({}, state, {
                 board: JSON.parse(action.updatedBoardJSON)
-            })
+            });
         default:
             return state;
     }
