@@ -35,7 +35,7 @@ const movePiece = (updatedBoard, isCapture) => {
     };
 }
 
-export const restartGame = () => {
+const restartGame = () => {
     return {
         type: RESTART_GAME
     };
