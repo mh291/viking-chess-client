@@ -10,7 +10,7 @@ class Game extends Component {
 
   componentWillMount() {
     // send back initial board for correct formatting on fetch call
-    // this.props.sendUpdatedBoardOnMove(this.props.board);
+    this.resetBoard();
 
     // begin polling for new board
     this.fetchUpdates();

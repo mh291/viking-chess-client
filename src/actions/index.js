@@ -86,7 +86,7 @@ export const sendUpdatedBoardOnMove = (updatedBoard, isCapture) => {
     };
 }
 
-export const sendResetBoard = (updatedBoard, isCapture) => {
+export const sendResetBoard = () => {
     return dispatch => {
         dispatch(restartGame());
         return fetch(resetBoardUrl, {
