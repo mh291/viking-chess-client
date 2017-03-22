@@ -1,7 +1,7 @@
 import { MoveEnum, PlayerEnum } from '../constants/GameEnums'
 import { INIT_GAME_SETUP } from '../constants/GameSetup'
 import { SELECT_PIECE, DESELECT_PIECE, MOVE_PIECE, RESTART_GAME, 
-         END_GAME, CHANGE_PLAYER, SET_ERROR, RECEIVE_UPDATED_BOARD} from '../actions/index'
+         END_GAME, SET_ERROR, RECEIVE_UPDATED_BOARD} from '../actions/index'
 
 const initialState = {
         board: JSON.parse(JSON.stringify(INIT_GAME_SETUP)),
