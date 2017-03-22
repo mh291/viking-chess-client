@@ -179,10 +179,6 @@ class Game extends Component {
   resetBoard = () => {
     this.props.sendResetBoard();
   }
-
-  changePlayer = () => {
-    this.props.changePlayer();
-  }
   
   fetchUpdates = () => {
     setTimeout(() => {

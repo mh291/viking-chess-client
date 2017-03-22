@@ -1,7 +1,7 @@
 import { MoveEnum, PlayerEnum } from '../constants/GameEnums'
 import { INIT_GAME_SETUP } from '../constants/GameSetup'
 import { SELECT_PIECE, DESELECT_PIECE, MOVE_PIECE, RESTART_GAME, 
-         END_GAME, SET_ERROR, RECEIVE_UPDATED_BOARD} from '../actions/index'
+         END_GAME, CHANGE_PLAYER, SET_ERROR, RECEIVE_UPDATED_BOARD} from '../actions/index'
 
 const initialState = {
         board: JSON.parse(JSON.stringify(INIT_GAME_SETUP)),
@@ -40,6 +40,10 @@ const game = (state = initialState, action) => {
                 winner: action.winner,
                 isGameOver: !state.isGameOver,
                 error: action.message
+            });
+        case CHANGE_PLAYER:
+            return Object.assign({}, state, {
+                currentPlayer: action.currentPlayer
             });
         case RESTART_GAME:
             return Object.assign({}, initialState, {
