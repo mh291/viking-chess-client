@@ -26,6 +26,10 @@ class Game extends Component {
         this.endGame(PlayerEnum.WHITE);
         return;
     } else {
+        if (this.props.currentPlayer !== this.props.playerColor) {
+             this.props.setError("It is not your turn");
+             return;
+        }
         if (this.props.moveType === MoveEnum.SOURCE) {
             let selectMovementResult = this.isValidSourceSelection(row, col);
             if (selectMovementResult.isValid) {

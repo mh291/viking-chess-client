@@ -1,11 +1,12 @@
 import { MoveEnum, PlayerEnum } from '../constants/GameEnums'
 import { INIT_GAME_SETUP } from '../constants/GameSetup'
-import { SELECT_PIECE, DESELECT_PIECE, MOVE_PIECE, RESTART_GAME, 
-         END_GAME, CHANGE_PLAYER, SET_ERROR, RECEIVE_UPDATED_BOARD} from '../actions/index'
+import { SELECT_PIECE, DESELECT_PIECE, MOVE_PIECE, RESTART_GAME, SET_PLAYER_COLOR,
+         END_GAME, CHANGE_PLAYER, SET_ERROR, RECEIVE_UPDATED_BOARD, } from '../actions/index'
 
 const initialState = {
         board: JSON.parse(JSON.stringify(INIT_GAME_SETUP)),
         currentPlayer: PlayerEnum.BLACK,
+        playerColor: PlayerEnum.NONE,
         sourceSquare: null,         
         moveType: MoveEnum.SOURCE,
         error: "",
@@ -56,6 +57,12 @@ const game = (state = initialState, action) => {
         case RECEIVE_UPDATED_BOARD:
             return Object.assign({}, state, {
                 board: JSON.parse(action.updatedBoardJSON)
+            });
+        case SET_PLAYER_COLOR:
+            let newPlayerColor = action.playerColor === "white" ? PlayerEnum.WHITE : PlayerEnum.BLACK
+            console.log(newPlayerColor)
+            return Object.assign({}, state, {
+                playerColor: newPlayerColor
             });
         default:
             return state;

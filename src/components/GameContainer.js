@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
 import Game from './Game';
-import { selectPiece, deselectPiece, sendResetBoard, endGame, setError, sendUpdatedBoardOnMove, fetchUpdatedBoard, fetchCurrentPlayer } from '../actions/index';
+import { selectPiece, deselectPiece, sendResetBoard, endGame, setError, sendUpdatedBoardOnMove, fetchUpdatedBoard, fetchCurrentPlayer, setPlayer } from '../actions/index';
 
 const mapStateToProps = (state, ownProps) => {
     return {
         board: state.board,
         currentPlayer: state.currentPlayer,
+        playerColor: state.playerColor,
         sourceSquare: state.sourceSquare,
         moveType: state.moveType,
         error: state.error,
@@ -39,6 +40,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         fetchCurrentPlayer: function() {
             dispatch(fetchCurrentPlayer());
+        },
+        setPlayer: function(playerColor) {
+            dispatch(setPlayer(playerColor));
         }
     };
 }

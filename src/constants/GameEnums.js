@@ -13,5 +13,6 @@ export const MoveEnum = {
 
 export const PlayerEnum = {
   WHITE: "white",
-  BLACK: "black"
+  BLACK: "black",
+  NONE: "none"
 };

@@ -10,10 +10,11 @@ export const END_GAME = 'END_GAME';
 export const CHANGE_PLAYER = 'CHANGE_PLAYER';
 export const SET_ERROR = 'SET_ERROR';
 export const RECEIVE_UPDATED_BOARD = 'RECEIVE_UPDATED_BOARD';
+export const SET_PLAYER_COLOR = 'SET_PLAYER_COLOR';
 const updateBoardUrl = `http://localhost:5000/api/updateBoard`;
 const resetBoardUrl = `http://localhost:5000/api/resetBoard`;
 const currentPlayerUrl = `http://localhost:5000/api/currentPlayer`;
-
+const setPlayerUrl = `http://localhost:5000/api/setPlayer`;
 
 export const selectPiece = (selectedSquare) => {
     return {
@@ -69,6 +70,13 @@ const receiveUpdatedBoard = (updatedBoardJSON) => {
         type: RECEIVE_UPDATED_BOARD,
         updatedBoardJSON
     };
+}
+
+const setPlayerColor = (playerColor) => {
+    return {
+        type: SET_PLAYER_COLOR,
+        playerColor
+    }
 }
 
 export const sendUpdatedBoardOnMove = (updatedBoard, isCapture) => {
@@ -129,6 +137,23 @@ export const fetchCurrentPlayer = () => {
             mode: 'cors'
         }).then(response => response.json())
           .then(json => dispatch(changePlayer(json))           
+        );
+    };
+}
+
+export const setPlayer = (player) => {
+    return dispatch => {
+        return fetch(setPlayerUrl, {
+            method: 'POST',
+            headers: {
+                'accept': 'application/json',
+                'content-type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            mode: 'cors',
+            body: JSON.stringify(player)
+        }).then(response => response.json())
+          .then(json => dispatch(setPlayerColor(json))
         );
     };
 }
