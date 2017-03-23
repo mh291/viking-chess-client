@@ -11,10 +11,10 @@ export const CHANGE_PLAYER = 'CHANGE_PLAYER';
 export const SET_ERROR = 'SET_ERROR';
 export const RECEIVE_UPDATED_BOARD = 'RECEIVE_UPDATED_BOARD';
 export const SET_PLAYER_COLOR = 'SET_PLAYER_COLOR';
-const updateBoardUrl = `http://localhost:5000/api/updateBoard`;
-const resetBoardUrl = `http://localhost:5000/api/resetBoard`;
-const currentPlayerUrl = `http://localhost:5000/api/currentPlayer`;
-const setPlayerUrl = `http://localhost:5000/api/setPlayer`;
+const updateBoardUrl = `https://viking-chess-server.herokuapp.com/api/updateBoard`;
+const resetBoardUrl = `https://viking-chess-server.herokuapp.com/api/resetBoard`;
+const currentPlayerUrl = `https://viking-chess-server.herokuapp.com/api/currentPlayer`;
+const setPlayerUrl = `https://viking-chess-server.herokuapp.com/api/setPlayer`;
 
 export const selectPiece = (selectedSquare) => {
     return {
