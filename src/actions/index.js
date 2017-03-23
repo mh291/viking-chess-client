@@ -86,9 +86,10 @@ export const sendUpdatedBoardOnMove = (updatedBoard, isCapture) => {
             method: 'POST',
             headers: {
                 'accept': 'application/json',
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
             },
-            mode: 'no-cors',
+            mode: 'cors',
             body: JSON.stringify(updatedBoard)
         });
     };
@@ -101,9 +102,10 @@ export const sendResetBoard = () => {
             method: 'POST',
             headers: {
                 'accept': 'application/json',
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
             },
-            mode: 'no-cors',
+            mode: 'cors',
             body: JSON.stringify(INIT_GAME_SETUP)
         });
     };
