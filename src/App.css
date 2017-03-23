@@ -8,11 +8,30 @@
 .Coordinate-button {
   display: block;
   padding: 5px;
+  margin: 5px;
+}
+
+.White-button {
+  top: -227px;
+  left: 570px;
+  position: relative
+}
+
+.Black-button {
+  top: -227px;
+  left: 575px;
+  position: relative
 }
 
 .Instructions-label {
   top: -400px;
   left: 400px;
+  position: relative;
+}
+
+.YourPlayer-label {
+  top: -321px;
+  left: 181px;
   position: relative;
 }
 

@@ -10,7 +10,7 @@ class Game extends Component {
 
   componentWillMount() {
     // send back initial board for correct formatting on fetch call
-    this.resetBoard();
+    this.props.sendResetBoard();
 
     // begin polling for new board
     this.fetchUpdates();
@@ -180,27 +180,27 @@ class Game extends Component {
     this.props.sendUpdatedBoardOnMove(updatedBoard, isCapture);
   }
 
-  resetBoard = () => {
-    this.props.sendResetBoard();
-  }
-  
   fetchUpdates = () => {
     setTimeout(() => {
         this.props.fetchUpdatedBoard();
         this.props.fetchCurrentPlayer();
-        this.fetchUpdates(); // disable constant fetch requests on prod
-    }, 1000);
+        this.fetchUpdates();
+    }, 500);
   }
 
   render() {
     let gameState = this.props.isOver ? "Game over" : "It is " + this.props.currentPlayer +"'s turn";
+    let playerColor = this.props.playerColor === PlayerEnum.NONE ? "Choose a color:" : "Your player color is " + this.props.playerColor
     return (
       <div className="Game-div"> 
         <label className="Coordinate-label">Viking Chess</label>
         <GameBoard board={this.props.board} selectPiece={this.selectPiece} sourceSquare={this.props.sourceSquare} />
         {this.props.error}
-        <button className="Coordinate-button" onClick={this.resetBoard}>Reset Board</button>
+        <button className="Coordinate-button" onClick={this.props.sendResetBoard}>Reset Board</button>
+        <button className="White-button" onClick={() => this.props.setPlayer(PlayerEnum.WHITE)}>White</button>
+        <button className="Black-button" onClick={() => this.props.setPlayer(PlayerEnum.BLACK)}>Black</button>
         <label className="Instructions-label">{INSTRUCTIONS}</label>
+        <label className="YourPlayer-label">{playerColor}</label>
         <label className="Coordinate-label">{gameState}</label>
       </div>
     );
