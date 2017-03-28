@@ -59,8 +59,7 @@ const game = (state = initialState, action) => {
                 board: JSON.parse(action.updatedBoardJSON)
             });
         case SET_PLAYER_COLOR:
-            let newPlayerColor = action.playerColor === "white" ? PlayerEnum.WHITE : PlayerEnum.BLACK
-            console.log(newPlayerColor)
+            let newPlayerColor = action.playerColor === PlayerEnum.WHITE ? PlayerEnum.WHITE : PlayerEnum.BLACK
             return Object.assign({}, state, {
                 playerColor: newPlayerColor
             });
