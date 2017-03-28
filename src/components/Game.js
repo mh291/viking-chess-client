@@ -185,7 +185,7 @@ class Game extends Component {
         this.props.fetchUpdatedBoard();
         this.props.fetchCurrentPlayer();
         this.fetchUpdates();
-    }, 500);
+    }, 2000);
   }
 
   render() {
