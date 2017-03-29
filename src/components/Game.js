@@ -181,7 +181,7 @@ class Game extends Component {
         this.props.fetchCurrentPlayer();
         this.props.getWinner();
         this.fetchUpdates();
-    }, 1000);
+    }, 3000);
   }
 
   render() {
