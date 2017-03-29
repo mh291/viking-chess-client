@@ -16,14 +16,9 @@ class Game extends Component {
     this.fetchUpdates();
   }
 
-  endGame = (gameWinner) => {
-    let message = "The Game is over. " + gameWinner + " has won. Click Reset Board to play again";
-    this.props.endGame(gameWinner, message);
-  }
-
   selectPiece = (event, row, col) => {
     if (this.props.isGameOver) {
-        this.endGame(PlayerEnum.WHITE);
+        this.props.updateWinner(PlayerEnum.WHITE);
         return;
     } else {
         if (this.props.currentPlayer !== this.props.playerColor) {
@@ -51,16 +46,16 @@ class Game extends Component {
 
                 // check if white is about to win i.e. moved king into safe
                 if (targetMovementResult.winner) {
-                    this.endGame(targetMovementResult.winner);
+                    this.props.updateWinner(targetMovementResult.winner);
                 } 
 
                 // check if black won i.e. captured white king 
                 if (captureMovementResult.winner) {
-                    this.endGame(captureMovementResult.winner);
+                    this.props.updateWinner(captureMovementResult.winner);
                 }                
 
                 if (this.props.isGameOver) {
-                    this.endGame(PlayerEnum.WHITE);
+                    this.props.updateWinner(PlayerEnum.WHITE);
                     return;
                 }
             } 
@@ -184,8 +179,9 @@ class Game extends Component {
     setTimeout(() => {
         this.props.fetchUpdatedBoard();
         this.props.fetchCurrentPlayer();
+        this.props.getWinner();
         this.fetchUpdates();
-    }, 2000);
+    }, 1000);
   }
 
   render() {

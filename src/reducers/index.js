@@ -1,7 +1,7 @@
 import { MoveEnum, PlayerEnum } from '../constants/GameEnums'
 import { INIT_GAME_SETUP } from '../constants/GameSetup'
 import { SELECT_PIECE, DESELECT_PIECE, MOVE_PIECE, RESTART_GAME, SET_PLAYER_COLOR,
-         END_GAME, CHANGE_PLAYER, SET_ERROR, RECEIVE_UPDATED_BOARD, } from '../actions/index'
+         CHANGE_PLAYER, SET_ERROR, RECEIVE_UPDATED_BOARD, SET_WINNER } from '../actions/index'
 
 const initialState = {
         board: JSON.parse(JSON.stringify(INIT_GAME_SETUP)),
@@ -36,12 +36,6 @@ const game = (state = initialState, action) => {
                 moveType: updatedMoveType,
                 error: action.isCapture ? "You've captured a piece!" : ""
             });
-        case END_GAME:
-            return Object.assign({}, state, {
-                winner: action.winner,
-                isGameOver: !state.isGameOver,
-                error: action.message
-            });
         case CHANGE_PLAYER:
             return Object.assign({}, state, {
                 currentPlayer: action.currentPlayer
@@ -59,10 +53,19 @@ const game = (state = initialState, action) => {
                 board: JSON.parse(action.updatedBoardJSON)
             });
         case SET_PLAYER_COLOR:
-            let newPlayerColor = action.playerColor === PlayerEnum.WHITE ? PlayerEnum.WHITE : PlayerEnum.BLACK
+            let newPlayerColor = action.playerColor === PlayerEnum.WHITE ? PlayerEnum.WHITE : PlayerEnum.BLACK;
             return Object.assign({}, state, {
                 playerColor: newPlayerColor
             });
+        case SET_WINNER:
+            if (action.winner !== "") { // end game
+                let message = "The Game is over. " + action.winner + " has won. Click Reset Board to play again";
+                return Object.assign({}, state, {
+                    winner: action.winner,
+                    isGameOver: true,
+                    error: message
+                });
+            }          
         default:
             return state;
     }

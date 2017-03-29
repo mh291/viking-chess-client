@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import Game from './Game';
-import { selectPiece, deselectPiece, sendResetBoard, endGame, setError, sendUpdatedBoardOnMove, fetchUpdatedBoard, fetchCurrentPlayer, setPlayer } from '../actions/index';
+import { selectPiece, deselectPiece, sendResetBoard, setError, sendUpdatedBoardOnMove, 
+         fetchUpdatedBoard, fetchCurrentPlayer, setPlayer, getWinner, updateWinner } from '../actions/index';
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -26,9 +27,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         sendResetBoard: function() {
             dispatch(sendResetBoard()); 
         },
-        endGame: function(winner, message) {
-            dispatch(endGame(winner, message));
-        },
         setError: function(message) {
             dispatch(setError(message));
         },
@@ -43,6 +41,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         setPlayer: function(playerColor) {
             dispatch(setPlayer(playerColor));
+        },
+        updateWinner: function(winner) {
+            dispatch(updateWinner(winner));
+        },
+        getWinner: function() {
+            dispatch(getWinner());
         }
     };
 }

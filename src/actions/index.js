@@ -6,15 +6,17 @@ export const DESELECT_PIECE = 'DESELECT_PIECE';
 export const MOVE_PIECE = 'MOVE_PIECE';
 export const CAPTURE_PIECE = 'CAPTURE_PIECE';
 export const RESTART_GAME = 'RESTART_GAME';
-export const END_GAME = 'END_GAME';
 export const CHANGE_PLAYER = 'CHANGE_PLAYER';
 export const SET_ERROR = 'SET_ERROR';
 export const RECEIVE_UPDATED_BOARD = 'RECEIVE_UPDATED_BOARD';
 export const SET_PLAYER_COLOR = 'SET_PLAYER_COLOR';
-const updateBoardUrl = `https://viking-chess-server.herokuapp.com/api/updateBoard`;
-const resetBoardUrl = `https://viking-chess-server.herokuapp.com/api/resetBoard`;
-const currentPlayerUrl = `https://viking-chess-server.herokuapp.com/api/currentPlayer`;
-const setPlayerUrl = `https://viking-chess-server.herokuapp.com/api/setPlayer`;
+export const SET_WINNER = 'SET_WINNER';
+let prod = true;
+const updateBoardUrl = prod ? `https://viking-chess-server.herokuapp.com/api/updateBoard` : `http://localhost:5000/api/updateBoard`; 
+const resetBoardUrl = prod ? `https://viking-chess-server.herokuapp.com/api/resetBoard` : `http://localhost:5000/api/resetBoard`;
+const currentPlayerUrl = prod ? `https://viking-chess-server.herokuapp.com/api/currentPlayer`: `http://localhost:5000/api/currentPlayer`;
+const setPlayerUrl = prod ? `https://viking-chess-server.herokuapp.com/api/setPlayer` : `http://localhost:5000/api/setPlayer`;
+const winnerUrl = prod ? 'https://viking-chess-server.herokuapp.com/api/winner' : 'http://localhost:5000/api/winner';
 
 export const selectPiece = (selectedSquare) => {
     return {
@@ -43,14 +45,6 @@ const restartGame = () => {
     };
 }
 
-export const endGame = (winner, message) => {
-    return {
-        type: END_GAME,
-        winner,
-        message
-    };
-}
-
 export const changePlayer = (currentPlayer) => {
     return {
         type: CHANGE_PLAYER,
@@ -76,6 +70,13 @@ const setPlayerColor = (playerColor) => {
     return {
         type: SET_PLAYER_COLOR,
         playerColor
+    }
+}
+
+const setWinner = (winner) => {
+    return {
+        type: SET_WINNER,
+        winner
     }
 }
 
@@ -156,6 +157,37 @@ export const setPlayer = (player) => {
             body: JSON.stringify(player)
         }).then(response => response.json())
           .then(json => dispatch(setPlayerColor(json))
+        );
+    };
+}
+
+export const updateWinner = (winner) => { // ends game
+    return dispatch => {
+        return fetch(winnerUrl, {
+            method: 'POST',
+            headers: {
+                'accept': 'application/json',
+                'content-type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            mode: 'cors',
+            body: JSON.stringify(winner)
+        });
+    };
+}
+
+export const getWinner = () => {
+    return dispatch => {
+        return fetch(winnerUrl, {
+            method: 'GET',
+            headers: {
+                'accept': 'application/json',
+                'content-type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            mode: 'cors'
+        }).then(response => response.json())
+          .then(json => dispatch(setWinner(json))           
         );
     };
 }
