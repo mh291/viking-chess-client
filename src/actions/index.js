@@ -6,11 +6,13 @@ export const DESELECT_PIECE = 'DESELECT_PIECE';
 export const MOVE_PIECE = 'MOVE_PIECE';
 export const CAPTURE_PIECE = 'CAPTURE_PIECE';
 export const RESTART_GAME = 'RESTART_GAME';
+export const CHECK_RESET = 'CHECK_RESET';
 export const CHANGE_PLAYER = 'CHANGE_PLAYER';
 export const SET_ERROR = 'SET_ERROR';
 export const RECEIVE_UPDATED_BOARD = 'RECEIVE_UPDATED_BOARD';
 export const SET_PLAYER_COLOR = 'SET_PLAYER_COLOR';
 export const SET_WINNER = 'SET_WINNER';
+
 let prod = true;
 const updateBoardUrl = prod ? `https://viking-chess-server.herokuapp.com/api/updateBoard` : `http://localhost:5000/api/updateBoard`; 
 const resetBoardUrl = prod ? `https://viking-chess-server.herokuapp.com/api/resetBoard` : `http://localhost:5000/api/resetBoard`;
@@ -45,7 +47,14 @@ const restartGame = () => {
     };
 }
 
-export const changePlayer = (currentPlayer) => {
+const checkReset = (isReset) => {
+    return {
+        type: CHECK_RESET,
+        isReset
+    }
+}
+
+const changePlayer = (currentPlayer) => {
     return {
         type: CHANGE_PLAYER,
         currentPlayer
@@ -188,6 +197,22 @@ export const getWinner = () => {
             mode: 'cors'
         }).then(response => response.json())
           .then(json => dispatch(setWinner(json))           
+        );
+    };
+}
+
+export const fetchResetState = () => {
+    return dispatch => {
+        return fetch(resetBoardUrl, {
+            method: 'GET',
+            headers: {
+                'accept': 'application/json',
+                'content-type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            mode: 'cors'
+        }).then(response => response.json())
+          .then(json => dispatch(checkReset(json))           
         );
     };
 }

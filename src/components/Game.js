@@ -180,8 +180,9 @@ class Game extends Component {
         this.props.fetchUpdatedBoard();
         this.props.fetchCurrentPlayer();
         this.props.getWinner();
+        this.props.fetchResetState();
         this.fetchUpdates();
-    }, 10000);
+    }, 5000);
   }
 
   render() {
