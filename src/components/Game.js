@@ -182,7 +182,7 @@ class Game extends Component {
         this.props.getWinner();
         this.props.fetchResetState();
         this.fetchUpdates();
-    }, 3000);
+    }, 500);
   }
 
   render() {
