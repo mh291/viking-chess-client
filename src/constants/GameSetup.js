@@ -53,4 +53,5 @@ export const INSTRUCTIONS = <span>This is a modified version of viking chess. Th
                             then the  <br/>players alternate. Each piece moves vertically and horizontally as long as there are no obstacles in the way such
                             as another piece <br/>or the edge of the board. The goal of the black player is to capture the white king. The goal of the white 
                             player is to move the white <br/>king to one of the four corners. These are safe zones and the game will end if the king 
-                            reaches any of these spaces marked with<br/>  an X. Black pieces cannot move into a safe zone.</span>
+                            reaches any of these spaces marked with<br/>  an X. Black pieces cannot move into a safe zone. IF THE OTHER PERSON CHOOSES A PIECE 
+                            FIRST, YOU WILL DEFAULT TO<br/> THE OTHER COLOR REGARDLESS OF WHAT YOU CLICK.</span>
