@@ -41,7 +41,7 @@ const game = (state = initialState, action) => {
                 currentPlayer: action.currentPlayer
             });
         case CHECK_RESET:
-            if (action.isReset == "false") {
+            if (action.isReset === "false") {
                 return state;
             } else {
                 return Object.assign({}, initialState, {
@@ -73,7 +73,8 @@ const game = (state = initialState, action) => {
                     isGameOver: true,
                     error: message
                 });
-            }          
+            }
+            // eslint-disable-next-line          
         default:
             return state;
     }
