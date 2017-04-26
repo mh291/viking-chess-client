@@ -3,17 +3,15 @@ import { BoardSpaceEnum, MoveEnum, PlayerEnum } from '../constants/GameEnums'
 import Coordinate from '../model/Coordinate';
 import GameBoard from './GameBoard'
 import { INSTRUCTIONS } from '../constants/GameSetup'
-import React, { Component } from 'react';
+import LoginPage from './LoginPage'
 import MovementResult from '../model/Movement-Result'
+import React, { Component } from 'react';
 
 class Game extends Component {
 
   componentWillMount() {
-    // send back initial board for correct formatting on fetch call
-    this.props.sendResetBoard();
-
     // begin polling for new board
-    this.fetchUpdates();
+    setTimeout(this.fetchUpdates(), 3000);
   }
 
   selectPiece = (event, row, col) => {

@@ -14,6 +14,7 @@ export const SET_PLAYER_COLOR = 'SET_PLAYER_COLOR';
 export const SET_WINNER = 'SET_WINNER';
 export const SET_ID = 'SET_ID';
 
+const prod = true;
 const updateBoardUrl = prod ? `https://viking-chess-server.herokuapp.com/api/updateBoard/` : `http://localhost:5000/api/updateBoard/`; 
 const resetBoardUrl = prod ? `https://viking-chess-server.herokuapp.com/api/resetBoard/` : `http://localhost:5000/api/resetBoard/`;
 const currentPlayerUrl = prod ? `https://viking-chess-server.herokuapp.com/api/currentPlayer/`: `http://localhost:5000/api/currentPlayer/`;
