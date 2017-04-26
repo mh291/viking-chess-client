@@ -172,15 +172,18 @@ class Game extends Component {
     if (isCapture) {
         updatedBoard[capturedPiece.row][capturedPiece.col].type = BoardSpaceEnum.EMPTY;
     }
-    this.props.sendUpdatedBoardOnMove(updatedBoard, isCapture);
+    this.props.sendUpdatedBoardOnMove(this.props.id, updatedBoard, isCapture);
   }
 
   fetchUpdates = () => {
     setTimeout(() => {
-        this.props.fetchUpdatedBoard();
-        this.props.fetchCurrentPlayer();
-        this.props.getWinner();
-        this.props.fetchResetState();
+        if (this.props.id != null) {
+            this.props.fetchUpdatedBoard(this.props.id);
+            this.props.fetchCurrentPlayer(this.props.id);
+            this.props.getWinner(this.props.id);
+            this.props.fetchResetState(this.props.id);
+        }
+
         this.fetchUpdates();
     }, 500);
   }
@@ -188,19 +191,19 @@ class Game extends Component {
   render() {
     let gameState = this.props.isOver ? "Game over" : "It is " + this.props.currentPlayer +"'s turn";
     let playerColor = this.props.playerColor === PlayerEnum.NONE ? "Choose a color:" : "Your player color is " + this.props.playerColor
-    return (
+    return this.props.id != null ? (
       <div className="Game-div"> 
         <label className="Coordinate-label">Viking Chess</label>
         <GameBoard board={this.props.board} selectPiece={this.selectPiece} sourceSquare={this.props.sourceSquare} />
         {this.props.error}
-        <button className="Coordinate-button" onClick={this.props.sendResetBoard}>Reset Board</button>
-        <button className="White-button" onClick={() => this.props.setPlayer(PlayerEnum.WHITE)}>White</button>
-        <button className="Black-button" onClick={() => this.props.setPlayer(PlayerEnum.BLACK)}>Black</button>
+        <button className="Coordinate-button" onClick={() => this.props.sendResetBoard(this.props.id)}>Reset Board</button>
+        <button className="White-button" onClick={() => this.props.setPlayer(this.props.id, PlayerEnum.WHITE)}>White</button>
+        <button className="Black-button" onClick={() => this.props.setPlayer(this.props.id, PlayerEnum.BLACK)}>Black</button>
         <label className="Instructions-label">{INSTRUCTIONS}</label>
         <label className="YourPlayer-label">{playerColor}</label>
         <label className="Coordinate-label">{gameState}</label>
       </div>
-    );
+    ) : (<LoginPage fetchId={this.props.fetchId}/>);
   }
 }
 

@@ -1,7 +1,7 @@
 import { MoveEnum, PlayerEnum } from '../constants/GameEnums'
 import { INIT_GAME_SETUP } from '../constants/GameSetup'
 import { SELECT_PIECE, DESELECT_PIECE, MOVE_PIECE, RESTART_GAME, SET_PLAYER_COLOR,
-         CHANGE_PLAYER, SET_ERROR, RECEIVE_UPDATED_BOARD, SET_WINNER, CHECK_RESET } from '../actions/index'
+         CHANGE_PLAYER, SET_ERROR, RECEIVE_UPDATED_BOARD, SET_WINNER, CHECK_RESET, SET_ID } from '../actions/index'
 
 const initialState = {
         board: JSON.parse(JSON.stringify(INIT_GAME_SETUP)),
@@ -11,7 +11,8 @@ const initialState = {
         moveType: MoveEnum.SOURCE,
         error: "",
         isGameOver: false,
-        winner: null
+        winner: null,
+        id : null
     };
 
 const game = (state = initialState, action) => {
@@ -45,12 +46,14 @@ const game = (state = initialState, action) => {
                 return state;
             } else {
                 return Object.assign({}, initialState, {
-                    board: JSON.parse(JSON.stringify(INIT_GAME_SETUP))
+                    board: JSON.parse(JSON.stringify(INIT_GAME_SETUP)),
+                    id: state.id
                 });
             }
         case RESTART_GAME:
             return Object.assign({}, initialState, {
-                board: JSON.parse(JSON.stringify(INIT_GAME_SETUP))
+                board: JSON.parse(JSON.stringify(INIT_GAME_SETUP)),
+                id: state.id
             });
         case SET_ERROR:
             return Object.assign({}, state, {
@@ -64,6 +67,10 @@ const game = (state = initialState, action) => {
             let newPlayerColor = action.playerColor === PlayerEnum.WHITE ? PlayerEnum.WHITE : PlayerEnum.BLACK;
             return Object.assign({}, state, {
                 playerColor: newPlayerColor
+            });
+        case SET_ID:
+            return Object.assign({}, state, {
+                id: action.id
             });
         case SET_WINNER:
             if (action.winner !== "") { // end game

@@ -12,13 +12,14 @@ export const SET_ERROR = 'SET_ERROR';
 export const RECEIVE_UPDATED_BOARD = 'RECEIVE_UPDATED_BOARD';
 export const SET_PLAYER_COLOR = 'SET_PLAYER_COLOR';
 export const SET_WINNER = 'SET_WINNER';
+export const SET_ID = 'SET_ID';
 
-let prod = true;
-const updateBoardUrl = prod ? `https://viking-chess-server.herokuapp.com/api/updateBoard` : `http://localhost:5000/api/updateBoard`; 
-const resetBoardUrl = prod ? `https://viking-chess-server.herokuapp.com/api/resetBoard` : `http://localhost:5000/api/resetBoard`;
-const currentPlayerUrl = prod ? `https://viking-chess-server.herokuapp.com/api/currentPlayer`: `http://localhost:5000/api/currentPlayer`;
-const setPlayerUrl = prod ? `https://viking-chess-server.herokuapp.com/api/setPlayer` : `http://localhost:5000/api/setPlayer`;
-const winnerUrl = prod ? 'https://viking-chess-server.herokuapp.com/api/winner' : 'http://localhost:5000/api/winner';
+const updateBoardUrl = prod ? `https://viking-chess-server.herokuapp.com/api/updateBoard/` : `http://localhost:5000/api/updateBoard/`; 
+const resetBoardUrl = prod ? `https://viking-chess-server.herokuapp.com/api/resetBoard/` : `http://localhost:5000/api/resetBoard/`;
+const currentPlayerUrl = prod ? `https://viking-chess-server.herokuapp.com/api/currentPlayer/`: `http://localhost:5000/api/currentPlayer/`;
+const setPlayerUrl = prod ? `https://viking-chess-server.herokuapp.com/api/setPlayer/` : `http://localhost:5000/api/setPlayer/`;
+const winnerUrl = prod ? 'https://viking-chess-server.herokuapp.com/api/winner/' : 'http://localhost:5000/api/winner/';
+const idUrl = prod ? 'https://viking-chess-server.herokuapp.com/api/id/' : 'http://localhost:5000/api/id/';
 
 export const selectPiece = (selectedSquare) => {
     return {
@@ -89,10 +90,17 @@ const setWinner = (winner) => {
     }
 }
 
-export const sendUpdatedBoardOnMove = (updatedBoard, isCapture) => {
+const assignId = (id) => {
+    return {
+        type: SET_ID,
+        id
+    }
+}
+
+export const sendUpdatedBoardOnMove = (id, updatedBoard, isCapture) => {
     return dispatch => {
         dispatch(movePiece(updatedBoard, isCapture));
-        return fetch(updateBoardUrl, {
+        return fetch(updateBoardUrl + id, {
             method: 'POST',
             headers: {
                 'accept': 'application/json',
@@ -105,10 +113,10 @@ export const sendUpdatedBoardOnMove = (updatedBoard, isCapture) => {
     };
 }
 
-export const sendResetBoard = () => {
+export const sendResetBoard = (id) => {
     return dispatch => {
         dispatch(restartGame());
-        return fetch(resetBoardUrl, {
+        return fetch(resetBoardUrl + id, {
             method: 'POST',
             headers: {
                 'accept': 'application/json',
@@ -121,9 +129,9 @@ export const sendResetBoard = () => {
     };
 }
 
-export const fetchUpdatedBoard = () => {
+export const fetchUpdatedBoard = (id) => {
     return dispatch => {
-        return fetch(updateBoardUrl, {
+        return fetch(updateBoardUrl + id, {
             method: 'GET',
             headers: {
                 'accept': 'application/json',
@@ -137,9 +145,9 @@ export const fetchUpdatedBoard = () => {
     };
 }
 
-export const fetchCurrentPlayer = () => {
+export const fetchCurrentPlayer = (id) => {
     return dispatch => {
-        return fetch(currentPlayerUrl, {
+        return fetch(currentPlayerUrl + id, {
             method: 'GET',
             headers: {
                 'accept': 'application/json',
@@ -153,9 +161,9 @@ export const fetchCurrentPlayer = () => {
     };
 }
 
-export const setPlayer = (player) => {
+export const setPlayer = (id, player) => {
     return dispatch => {
-        return fetch(setPlayerUrl, {
+        return fetch(setPlayerUrl + id, {
             method: 'POST',
             headers: {
                 'accept': 'application/json',
@@ -170,9 +178,9 @@ export const setPlayer = (player) => {
     };
 }
 
-export const updateWinner = (winner) => { // ends game
+export const updateWinner = (id, winner) => { // ends game
     return dispatch => {
-        return fetch(winnerUrl, {
+        return fetch(winnerUrl + id, {
             method: 'POST',
             headers: {
                 'accept': 'application/json',
@@ -185,9 +193,9 @@ export const updateWinner = (winner) => { // ends game
     };
 }
 
-export const getWinner = () => {
+export const getWinner = (id) => {
     return dispatch => {
-        return fetch(winnerUrl, {
+        return fetch(winnerUrl + id, {
             method: 'GET',
             headers: {
                 'accept': 'application/json',
@@ -201,9 +209,9 @@ export const getWinner = () => {
     };
 }
 
-export const fetchResetState = () => {
+export const fetchResetState = (id) => {
     return dispatch => {
-        return fetch(resetBoardUrl, {
+        return fetch(resetBoardUrl + id, {
             method: 'GET',
             headers: {
                 'accept': 'application/json',
@@ -216,3 +224,23 @@ export const fetchResetState = () => {
         );
     };
 }
+
+export const fetchId = () => {
+    return dispatch => {
+        return fetch(idUrl, {
+            method: 'GET',
+            headers: {
+                'accept': 'application/json',
+                'content-type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            mode: 'cors'
+        }).then(response => response.json())
+          .then((json) => {
+              dispatch(assignId(json)),             
+              dispatch(sendResetBoard(json))               
+          }
+        );
+    };
+}
+

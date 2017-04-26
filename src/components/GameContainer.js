@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Game from './Game';
-import { selectPiece, deselectPiece, sendResetBoard, setError, sendUpdatedBoardOnMove, 
-         fetchUpdatedBoard, fetchCurrentPlayer, setPlayer, getWinner, updateWinner, fetchResetState } from '../actions/index';
+import { selectPiece, deselectPiece, sendResetBoard, setError, sendUpdatedBoardOnMove, fetchUpdatedBoard, 
+    fetchCurrentPlayer, setPlayer, getWinner, updateWinner, fetchResetState, fetchId } from '../actions/index';
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -12,7 +12,8 @@ const mapStateToProps = (state, ownProps) => {
         moveType: state.moveType,
         error: state.error,
         isGameOver: state.isGameOver,
-        winner: state.winner
+        winner: state.winner,
+        id: state.id
     };
 }
 
@@ -24,32 +25,35 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         deselectPiece: function() {
             dispatch(deselectPiece());
         },
-        sendResetBoard: function() {
-            dispatch(sendResetBoard()); 
+        sendResetBoard: function(id) {
+            dispatch(sendResetBoard(id)); 
         },
         setError: function(message) {
             dispatch(setError(message));
         },
-        sendUpdatedBoardOnMove: function(updatedBoard, isCapture) {
-            dispatch(sendUpdatedBoardOnMove(updatedBoard, isCapture));
+        sendUpdatedBoardOnMove: function(id, updatedBoard, isCapture) {
+            dispatch(sendUpdatedBoardOnMove(id, updatedBoard, isCapture));
         },
-        fetchUpdatedBoard: function() {
-            dispatch(fetchUpdatedBoard());
+        fetchUpdatedBoard: function(id) {
+            dispatch(fetchUpdatedBoard(id));
         },
-        fetchCurrentPlayer: function() {
-            dispatch(fetchCurrentPlayer());
+        fetchCurrentPlayer: function(id) {
+            dispatch(fetchCurrentPlayer(id));
         },
-        setPlayer: function(playerColor) {
-            dispatch(setPlayer(playerColor));
+        setPlayer: function(id, playerColor) {
+            dispatch(setPlayer(id, playerColor));
         },
-        updateWinner: function(winner) {
-            dispatch(updateWinner(winner));
+        updateWinner: function(id, winner) {
+            dispatch(updateWinner(id, winner));
         },
-        getWinner: function() {
-            dispatch(getWinner());
+        getWinner: function(id) {
+            dispatch(getWinner(id));
         },
-        fetchResetState: function() {
-            dispatch(fetchResetState());
+        fetchResetState: function(id) {
+            dispatch(fetchResetState(id));
+        },
+        fetchId: function() {
+            dispatch(fetchId());
         }
     };
 }
