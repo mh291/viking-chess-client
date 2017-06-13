@@ -183,7 +183,7 @@ class Game extends Component {
         }
 
         this.fetchUpdates();
-    }, 500);
+    }, 1000);
   }
 
   render() {
